@@ -1,0 +1,84 @@
+// C++ implementation of above algorithm.
+#include <bits/stdc++.h>
+using namespace std;
+
+// function to print output
+void lexoString(string s, int k)
+{
+	
+	int n = s.size();
+	
+	// to store unique characters of the string
+	vector<char> v;
+	
+	// to check uniqueness
+	map<char, int> mp;
+	
+	for (int i = 0; i < s.size(); i++) {
+		
+		if (mp[s[i]] == 0) {
+			
+			// if mp[s[i]] = 0 then it is
+			// first time
+			mp[s[i]] = 1;
+			v.push_back(s[i]);
+		}
+	}
+	
+	// sort the unique characters
+	sort(v.begin(), v.end());
+	
+	// simply add n-k smallest characters
+	if (k > n)
+	{
+		cout << s;
+		for (int i = n; i < k; i++) {
+			cout << v[0];
+		}
+		
+		return; // end the program
+	}
+	
+	// searching the first character left of
+	// index k and not equal to greatest
+	// character of the string
+	for (int i = k - 1; i >= 0; i--) {
+		if (s[i] != v[v.size() - 1]) {
+			for (int j = 0; j < i; j++) {
+				cout << s[j];
+			}
+			
+			// finding the just next greater
+			// character than s[i]
+			for (int j = 0; j < v.size(); j++) {
+				if (v[j] > s[i]) {
+					cout << v[j];
+					break;
+				}
+			}
+			
+			// suffix with smallest character
+			for (int j = i + 1; j < k; j++)
+				cout << v[0];		
+			
+			return;
+		}
+	}
+	
+	// if we reach here then all indices to the left
+	// of k had the greatest character
+	cout << "No lexicographically greater string of length "
+		<< k << " possible here.";
+	
+}
+
+// Driver code
+int main()
+{
+	string s = "gi";
+	int k = 3;
+
+	// Function call
+	lexoString(s, k);
+	return 0;
+}
